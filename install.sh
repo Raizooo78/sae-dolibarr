@@ -1,7 +1,8 @@
 set -e
 cd "$(dirname "$0")"
  
-# on build l'img et on lance les 2 conteneurs
+# on installe docker et build l'img et on lance les 2 conteneurs
+command -v docker >/dev/null || sudo apt-get install -y docker.io docker-compose-v2
 docker compose up -d --build
 sleep 6.7
  
