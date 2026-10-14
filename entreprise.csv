@@ -1,0 +1,5 @@
+nom,client,fournisseur,code_client,code_fournisseur,adresse,cp,ville,telephone,email
+Tasty Crousty,1,0,CU-00001,,12 rue des Halles,76000,Rouen,0235000070,tastycrousty67@gmail.com
+Le 129,1,1,CU-00002,SU-00002,129 rue Saint-Romain,76500,Elbeuf,0235000069,le129@hotmail.fr
+Pizza Family,2,0,CU-00003,,8 avenue de la Republique,76100,Rouen,0235000068,pizza-family@outlook.fr
+Mama Factory,0,1,,SU-00004,45 quai de la Bourse,76000,Rouen,0235000067,mama-factory@gmail.com
