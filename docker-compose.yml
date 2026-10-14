@@ -14,7 +14,7 @@ services:
     restart: always
 
   web:
-    build: .
+    build: ./sources
     container_name: dolibarr_web
     ports:
       - "8080:80"
@@ -27,8 +27,10 @@ services:
       - DOLI_DB_PASSWORD=dolibarr_pwd
     volumes:
       - dolibarr_docs:/var/www/documents
+      - dolibarr_conf:/var/www/html/conf
     restart: always
 
 volumes:
   db_data:
   dolibarr_docs:
+  dolibarr_conf:
