@@ -7,6 +7,7 @@ Donc pour la demande de plan de reprise d'activité cette solution répond aussi
 
 La base de données est aussi mise dans un conteneur permettant portabilité et sécurité. 
 
+
 2) Le Dockerfile:
 
 Ce fichier est lié au déploiement Docker, il contient une suite d'instructions et de commandes pas à pas pour construire une image Docker personnalisée. 
@@ -25,6 +26,8 @@ Liens qui nous ont aidé :
 
 Au lieu de tout installer sur un seul système, on a fait le choix de séparer l'architecture en deux conteneurs distincts : 
 un dédié au serveur web (Apache/PHP + Dolibarr) et un dédié exclusivement à la base de données. 
+
+Conteneur web : nécessite un serveur web d'où Apache et d'un moteur d'éxecution ici PHP
 
 3.1/ Fonctionnement 
 Le fichier docker-compose lie nos deux conteneurs dans un réseau privé. 
