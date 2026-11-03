@@ -1,3 +1,5 @@
+#!/bin/bash
+
 set -e
 cd "$(dirname "$0")"
 DOSSIER="backups/$(date +%Y%m%d_%H%M%S)"

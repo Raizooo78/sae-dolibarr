@@ -1,3 +1,5 @@
+#!/bin/bash
+
 set -e
 cd "$(dirname "$0")"
 DOSSIER="${1:-$(ls -d backups/* | tail -1)}"
