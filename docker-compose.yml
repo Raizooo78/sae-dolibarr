@@ -14,7 +14,7 @@ services:
     restart: always
 
   web:
-    build: ./sources
+    build: .
     container_name: dolibarr_web
     ports:
       - "8080:80"

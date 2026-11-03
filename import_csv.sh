@@ -1,7 +1,7 @@
 cd "$(dirname "$0")"
  
 #injecter le csv d'exemple dans la bdd
-docker compose cp data/tiers.csv db:/tmp/tiers.csv
+docker compose cp data/entreprise.csv db:/tmp/tiers.csv
  
 # Efface les anciens imports pour relancer et recharge le csv
 docker compose exec -T db mariadb -uroot -proot --local-infile=1 dolibarr -e "

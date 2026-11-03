@@ -4,7 +4,7 @@ cd "$(dirname "$0")"
 # on installe docker et build l'img et on lance les 2 conteneurs
 command -v docker >/dev/null || sudo apt-get install -y docker.io docker-compose-v2
 docker compose up -d --build
-sleep 6.7
+sleep 30
  
 INSTALL="docker compose exec -T -u www-data -w /var/www/html/install web"
 $INSTALL php step1.php set auto /var/www/html /var/www/documents http://localhost:8080 "" "" mysqli db dolibarr dolibarr_user dolibarr_pwd 3306 llx_ "" ""
