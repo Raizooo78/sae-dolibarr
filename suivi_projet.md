@@ -23,6 +23,7 @@
 **Séance 4**:
 
 * Problème sur le script **import_csv.sh**
+* Début de développement du script **install.sh**
 
 **Séance 5**:
 
@@ -32,7 +33,8 @@
 
 
 
+Normalement : 
 
-
-
-* Début de développement du script **install.sh**
+-> Déploiement depuis ./install.sh (import_csv.sh lancé en meme temps)
+-> Cron qui lance backup.sh tous les soirs
+-> restore.sh qui va reprendre la dernière version de la BDD si problème depuis backup
