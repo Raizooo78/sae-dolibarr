@@ -12,7 +12,7 @@ $INSTALL php step1.php set auto /var/www/html /var/www/documents http://localhos
 $INSTALL php step2.php set auto
 $INSTALL php step5.php 0 0 auto set admin admin admin 444
  
-docker compose exec -T -u www-data -w /var/www/html web php -r 'require_once "master.inc.php"; require_once DOL_DOCUMENT_ROOT."/core/lib/admin.lib.php"; activateModule("modSociete");'
+docker compose exec -T -u www-data -w /var/www/html web php -r 'require_once "master.inc.php"; require_once DOL_DOCUMENT_ROOT."/core/lib/admin.lib.php"; activateModule("modSociete"); activateModule("modFournisseur");'
 # lancement de l'importation du csv dans la bdd
 bash import_csv.sh
 
