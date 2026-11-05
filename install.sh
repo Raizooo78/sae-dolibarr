@@ -15,5 +15,11 @@ $INSTALL php step5.php 0 0 auto set admin admin admin 444
 docker compose exec -T -u www-data -w /var/www/html web php -r 'require_once "master.inc.php"; require_once DOL_DOCUMENT_ROOT."/core/lib/admin.lib.php"; activateModule("modSociete");'
 # lancement de l'importation du csv dans la bdd
 bash import_csv.sh
+
+# sauvegarde automatique de la bdd à la fin de journée
+
+command -v crontab >/dev/null || sudo apt-get install -y cron
+(crontab -l 2>/dev/null | grep -v backup.sh; echo "0 18 * * * cd $PWD && ./backup.sh >> backups/cron.log 2>&1") | crontab -
+
 echo "Dolibarr ok : http://localhost:8080   (login : admin / admin)"
  
