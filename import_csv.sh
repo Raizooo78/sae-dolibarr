@@ -1,3 +1,4 @@
+#!/bin/bash
 cd "$(dirname "$0")"
  
 #injecter le csv d'exemple dans la bdd
