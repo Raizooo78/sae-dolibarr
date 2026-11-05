@@ -10,7 +10,7 @@ Nous utilisons donc Docker afin de permettre une mise en conteneur de l'appli Do
 
 Pour se faire, Docker et quelques scripts d'automatisation permettront à un client de récupérer une appli fonctionnelle simplement. 
 
-Explications de nos choix techniques:
+**Explications de nos choix techniques:**
 
 1) Utilisation de Docker
 La finalité du projet est de pouvoir déployer Dolibarr en un clic sur une machine vierge.
@@ -54,3 +54,24 @@ On n'aura donc pas besoin de configurer l'accès à la BDD manuellemet
 Liens :
 - Le repo du prof pour la structure MariaDB : https://github.com/skramm/but3_rt/tree/main/docker_BDD
 - Image officielle MariaDB : https://hub.docker.com/_/mariadb
+
+
+**Cas d'installation classique**
+
+Le projet vise à être déployé simplement sur une machine Debian client en exécutant le fichier *install.sh*. 
+Une fois les conteneurs en place, nous avons intégré l'éxecution de *import_csv.sh*.
+Ainsi, le lancement de la commande ./install.sh permettrait de déployer l'ERP Dolibarr et l'import des données client issu du fichier csv. 
+
+**Mise en place d'un CRON pour l'éxecution journalière du script backup.sh**
+
+Le script *backup.sh* permet de figer et sauvegarder la BDD dans l'état. 
+Pour éviter la perte de données sur la BDD suite à un oubli de lancement du script backup.sh, la mise en place d'un CRON a été envisagé.
+
+Un CRON est une tâche automatique pouvant être défini qui peut se lancer selon une durée donné permettant le lancement de script sans action direct d'un humain.
+* Dans notre cas, on a mis en place un CRON permettant tous les soirs de lancer *backup.sh* enregistrant la BDD dans son état. Cet état figé est enregsitré dans le dossier ()
+
+**Nécessité d'un restore suite à un CRASH**
+
+Dans le cas où l'ERP est déployé, est en place et que ce dernier subit un CRASH nécessitant une réinstallation, la conteneurisation de l'application simplifie la tache.
+
+La commande ./restore.sh permet de revenir au stade de la dernière sauvegarde émise par le CRON.

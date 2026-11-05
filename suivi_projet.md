@@ -26,6 +26,10 @@
 
 **Séance 5**:
 
+* Mise en place du CRON
+* Rédaction de la documentation technique dans le readme.md
+
+
 
 
 
