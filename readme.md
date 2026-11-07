@@ -52,6 +52,15 @@ docker compose down -v
 
 *Si « Permission denied » : `chmod +x *.sh`. Sous Ubuntu (WSL), pour que la sauvegarde de 18h tourne : `sudo service cron start`.*
 
+# Prise en main de Dolibarr sur une VM
+
+Avant de passer à Docker, on a installé Dolibarr à la main sur une VM Debian 13 (Proxmox de l'IUT). Le but n'était pas de faire le projet sur la VM, mais de comprendre comment un déploiement fonctionne et de voir ce que les scripts devront automatiser.
+
+* Installation d'Apache, de PHP et de MariaDB, puis de Dolibarr (version 24.0.1 sur la VM, 18.0.1 dans notre Docker) avec son assistant d'installation web.
+* Création de la base de données et de son utilisateur. Une erreur MariaDB 1044 est apparue : l'utilisateur n'avait pas les droits sur la base, réglé avec `GRANT ALL PRIVILEGES` puis `FLUSH PRIVILEGES`.
+* Activation des modules **Tiers**, **Data imports** et **Data exports**.
+* Export CSV des entreprises depuis Dolibarr, pour voir le format de sortie du fichier. Cela a servi de modèle pour notre fichier `data/entreprise.csv`.
+
 # Explications de nos choix techniques:
 
 1) **Utilisation de Docker**
@@ -114,7 +123,24 @@ Ce script permet d'injecter les données clients d'un fichier CSV vers la base d
 
 5) **Script pour restaurer à l'état X l'appli et sa BDD *restore.sh***
 
+Ce script remet en place ce que *backup.sh* a sauvegardé. Il se lance **après `./install.sh`**, pour que les conteneurs existent.
+
+* **`set -e`** : arrête le script à la première erreur.
+* **`cd "$(dirname "$0")"`** : on se place à la racine du projet.
+* **`docker compose exec -T db mariadb -uroot -proot dolibarr < backups/derniere/dolibarr.sql`** : rejoue la sauvegarde SQL dans la base. Les tables sont remplacées par celles de la sauvegarde, c'est ce qui redonne les tiers.
+* **`docker compose exec -T web tar xzf - -C /var/www/documents < backups/derniere/documents.tar.gz`** : décompresse les documents sauvegardés dans le conteneur web.
+* **`docker compose exec -T web sh -c 'cat > /var/www/html/conf/conf.php' < backups/derniere/conf.php`** : remet le fichier de configuration de Dolibarr.
+
 6) **Script de sauvegarde de la BDD *backup.sh***
+
+Ce script fait une copie de l'état de l'application dans le dossier `backups/derniere/`.
+
+* **`rm -rf backups/en_cours && mkdir -p backups/en_cours`** : crée un dossier de travail propre (le `-p` crée aussi `backups/` s'il n'existe pas).
+* **`mariadb-dump ... > dolibarr.sql`** : copie toute la base de données dans un fichier SQL.
+* **`tar czf ... > documents.tar.gz`** : compresse les documents de Dolibarr.
+* **`cat conf.php > conf.php`** : copie le fichier de configuration.
+* **`rm -rf backups/derniere && mv backups/en_cours backups/derniere`** : la nouvelle sauvegarde remplace celle de la veille, seulement si tout s'est bien passé. En cas d'échec, l'ancienne reste intacte.
+* Le script est lancé tous les jours à 18h par le CRON mis en place dans *install.sh*.
 
 
 **Cas d'installation classique**
