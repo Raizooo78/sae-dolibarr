@@ -18,6 +18,7 @@ bash import_csv.sh
 
 # sauvegarde automatique de la bdd à la fin de journée
 
+mkdir -p backups
 command -v crontab >/dev/null || sudo apt-get install -y cron
 (crontab -l 2>/dev/null | grep -v backup.sh; echo "0 18 * * * cd $PWD && ./backup.sh >> backups/cron.log 2>&1") | crontab -
 

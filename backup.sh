@@ -2,7 +2,7 @@
 
 set -e
 cd "$(dirname "$0")"
-rm -rf backups/en_cours && mkdir backups/en_cours
+rm -rf backups/en_cours && mkdir -p backups/en_cours
  
 docker compose exec -T db mariadb-dump -uroot -proot dolibarr > backups/en_cours/dolibarr.sql
 docker compose exec -T web tar czf - -C /var/www/documents . > backups/en_cours/documents.tar.gz

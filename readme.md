@@ -10,6 +10,48 @@ Nous utilisons donc Docker afin de permettre une mise en conteneur de l'appli Do
 
 Pour se faire, Docker et quelques scripts d'automatisation permettront à un client de récupérer une appli fonctionnelle simplement. 
 
+# Comment lancer le projet
+
+**Avant de commencer**
+- Avoir **Docker** installé (sous Windows : Docker Desktop).
+- Sous Windows, utiliser un terminal **Ubuntu (WSL)** et pas PowerShell. Dans Docker Desktop : *Settings > Resources > WSL integration* et cocher Ubuntu.
+
+**1. Récupérer le projet** (dans le terminal Ubuntu)
+```bash
+cd ~
+git clone https://github.com/Raizooo78/sae-dolibarr.git
+cd sae-dolibarr
+```
+
+**2. Tout installer**
+```bash
+./install.sh
+```
+Ça prend quelques minutes. Quand « Dolibarr ok » s'affiche, c'est prêt : Dolibarr est installé, les 4 tiers du CSV sont importés et la sauvegarde de 18h est programmée.
+
+**3. Ouvrir Dolibarr**
+- Adresse : http://localhost:8080
+- Login : `admin` / mot de passe : `admin`
+- Les tiers sont dans *Third parties > List*.
+
+**4. Sauvegarder et restaurer**
+```bash
+./backup.sh      # sauvegarde (se fait aussi tout seul chaque jour à 18h)
+./restore.sh     # remet la dernière sauvegarde (à lancer après ./install.sh)
+```
+
+**5. Tout supprimer pour recommencer de zéro**
+```bash
+docker compose down -v
+```
+
+**Test de reprise après incident (PRA)**
+```bash
+./backup.sh && docker compose down -v && ./install.sh && ./restore.sh
+```
+
+*Si « Permission denied » : `chmod +x *.sh`. Sous Ubuntu (WSL), pour que la sauvegarde de 18h tourne : `sudo service cron start`.*
+
 # Explications de nos choix techniques:
 
 1) **Utilisation de Docker**
